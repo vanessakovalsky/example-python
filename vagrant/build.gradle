@@ -1,0 +1,15 @@
+def majorVersion = System.getenv("MAJOR_VERSION") ?: "1"
+def minorVersion = System.getenv("MINOR_VERSION") ?: "0"
+version = majorVersion + "." + minorVersion 
+
+task purge(type:Delete) {
+  //println 'Cleaning up old files'
+  delete 'build'
+}
+
+def tarfile = "application-" + version
+task packageDistribution(type: Zip, dependsOn: purge) {
+    from ('src') { into '.' }
+    archiveFileName = tarfile + ".zip"
+    destinationDirectory = file("build")
+}
