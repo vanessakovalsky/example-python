@@ -7,8 +7,15 @@ task purge(type:Delete) {
   delete 'build'
 }
 
+task dependances(type:Exec, dependsOn: purge) {
+    executable 'sh'
+    args '-c', 'pip install flask'
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = { return standardOutput.toString() }
+}
+
 def tarfile = "application-" + version
-task packageDistribution(type: Zip, dependsOn: purge) {
+task packageDistribution(type: Zip, dependsOn: dependances) {
     from ('src') { into '.' }
     archiveFileName = tarfile + ".zip"
     destinationDirectory = file("build")
