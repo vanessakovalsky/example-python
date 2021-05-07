@@ -1,10 +1,12 @@
 pipeline {
     agent any 
     stages {
-        stage('build') {
-            steps {
-                sh 'python --version'
-            }
+        stage('Clone sources') {
+            git url: 'https://github.com/vanessakovalsky/example-python.git'
+        }
+        
+        stage('Gradle build') {
+            buildInfo = rtGradle.run rootDir: "./", buildFile: 'build.gradle', tasks: 'pylint'
         }
         stage('testcode') {
             steps {
