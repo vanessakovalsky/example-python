@@ -7,11 +7,15 @@
             }
         }
         
-        stage('Gradle build') {
-            steps {
-                buildInfo = rtGradle.run rootDir: "./", buildFile: 'build.gradle', tasks: 'pylint'
-            }
-        }
+       stage('Compile') { // Compile and do unit testing
+             tools {
+               gradle 'installGradle'
+             }
+             steps {
+               // run Gradle to execute compile and unit testing
+               sh 'gradle pylint'
+             }
+           }
         stage('testcode') {
             steps {
                 sh 'python src/main.py'
