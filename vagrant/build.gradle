@@ -27,3 +27,16 @@ task packageDistribution(type: Zip, dependsOn: dependances) {
     archiveFileName = tarfile + ".zip"
     destinationDirectory = file("build")
 }
+
+
+task pycodestyle(type:Exec) {
+    executable 'sh'
+    args '-c', "pycodestyle src/ >> result-pycode.txt"
+    ignoreExitValue true
+}
+
+task lint(type:Exec) {
+    executable 'sh'
+    args '-c', "flake8 --output-file=output.txt src/"
+    ignoreExitValue true
+}
