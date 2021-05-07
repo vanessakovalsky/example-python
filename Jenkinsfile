@@ -1,6 +1,6 @@
 pipeline {
     agent any 
-    stages {
+    node {
         stage('Clone sources') {
             git url: 'https://github.com/vanessakovalsky/example-python.git'
         }
